@@ -1,0 +1,11 @@
+-- Analytics queries
+
+-- 1. Find the top 10 pickup locations based on the number of trips
+select b.pickup_latitude,b.pickup_longitude, COUNT(a.trip_id) AS trips_count from `trim-surfer-395023.data_with_kekeli.fact_table` a join `trim-surfer-395023.data_with_kekeli.pickup_location_dim` b on a.pickup_location_id = b.pickup_location_id GROUP BY b.pickup_latitude,b.pickup_longitude ORDER BY COUNT(a.trip_id) DESC LIMIT 10;
+
+-- 2. Find the total number of trips by passenger count
+select a.passenger_count, COUNT(a.trip_id) AS trips_count from `trim-surfer-395023.data_with_kekeli.fact_table` a 
+GROUP BY a.passenger_count ORDER BY a.passenger_count;
+
+-- 3. Find the average fare amount by hour of the day
+select b.drop_day,b.drop_hour, AVG(a.fare_amount) from `trim-surfer-395023.data_with_kekeli.fact_table` a join `trim-surfer-395023.data_with_kekeli.datetime_dim` b on a.datetime_id = b.datetime_id GROUP BY b.drop_day,b.drop_hour ORDER BY COUNT(a.fare_amount) DESC LIMIT 10;
